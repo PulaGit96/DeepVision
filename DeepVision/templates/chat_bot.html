@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GIT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        body {
+        margin: 0;
+        height: 100%;
+		font-family: Arial, Helvetica, sans-serif;
+		background-image: url({{ url_for('static', filename='img/ai.gif') }})
+	}
+	.center {
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+textarea {
+  background: transparent;
+  color: transparent;
+  resize: none;
+  border: 0 none;
+  width: 100%;
+  font-size: 5em;
+  outline: none;
+  height: 100%;
+  position: absolute;
+  font-size:20px;
+  color:#8bdb6b;
+  font-weight:bold;
+}
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Deep Vision</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/complexity">Complexity</a></li>
+            <li><a href="/readability">Readability</a></li>
+            <li><a href="/visualization">Visualization</a></li>
+            <li class="active"><a href="/chat_bot">ChatBot</a></li>
+            <li><a href="/similarity">Similarity</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="center">
+        <center>
+            <h2 style="font-size:40px; color:#de5757; font-weight:bold;">AI Powered Chat Bot</h2>
+        </center>
+            <form action="/chat" method="post">
+                <input class="form-control" type="text" id="msg" name="msg" placeholder="Ask me anything..." required/>
+                <br>
+                <center><button type="submit" class="btn btn-primary ">Send</button></center>
+            </form>
+            <br>
+            <br>
+            <br>
+            <br>
+            <textarea>{{data}}</textarea>
+    </div>
+
+</div>
+
+</body>
+</html>

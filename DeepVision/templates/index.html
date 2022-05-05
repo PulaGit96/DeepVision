@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Index</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+
+    body {
+        margin: 0;
+        height: 100%;
+		font-family: Arial, Helvetica, sans-serif;
+		background-image: url({{ url_for('static', filename='img/bg.jpg') }})
+	}
+
+
+
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+</style>
+</head>
+<body>
+
+
+<div class="container">
+    <div class="center">
+        <center><h2 style="font-size:40px; color:#000066; font-weight:bold;">Please Enter Git Link</h2></center>
+        <form action="/git_download" method="post">
+            <div class="form-group">
+                <label style="font-size:20px; color:#000066; font-weight:bold;">It will take some time to download your git repository</label>
+                <input type="text" class="form-control" name="git_url" placeholder="Enter git link" required>
+            </div>
+            <center><button type="submit" class="btn btn-success">Submit</button></center>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

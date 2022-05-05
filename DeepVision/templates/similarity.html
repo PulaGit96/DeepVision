@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GIT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+        @property --p{
+  syntax: '<number>';
+  inherits: true;
+  initial-value: 1;
+}
+
+.pie {
+  --p:20;      /* the percentage */
+  --b:22px;    /* the thickness */
+  --c:darkred; /* the color */
+  --w:150px;   /* the size*/
+
+  width:var(--w);
+  aspect-ratio:1/1;
+  position:relative;
+  display:inline-grid;
+  place-content:center;
+  font-size:25px;
+  font-weight:bold;
+  font-family:sans-serif;
+}
+.pie:before,
+.pie:after {
+  content:"";
+  position:absolute;
+  border-radius:50%;
+}
+.pie:before {
+  inset:0;
+  background:
+    radial-gradient(farthest-side,var(--c) 98%,#0000) top/var(--b) var(--b) no-repeat,
+    conic-gradient(var(--c) calc(var(--p)*1%),#0000 0);
+  -webkit-mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+          mask:radial-gradient(farthest-side,#0000 calc(99% - var(--b)),#000 calc(100% - var(--b)));
+}
+.pie:after {
+  inset:calc(50% - var(--b)/2);
+  background:var(--c);
+  transform:rotate(calc(var(--p)*3.6deg - 90deg)) translate(calc(var(--w)/2 - 50%));
+}
+.animate {
+  animation:p 1s .5s both;
+}
+.no-round:before {
+  background-size:0 0,auto;
+}
+.no-round:after {
+  content:none;
+}
+@keyframes p{
+  from{--p:0;}
+}
+
+.left {
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.right {
+  margin: 0;
+  position: absolute;
+  top: 40%;
+  left: 80%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+textarea {
+  width: 450px;
+  height: 450px;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Deep Vision</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/complexity">Complexity</a></li>
+            <li><a href="/readability">Readability</a></li>
+            <li><a href="/visualization">Visualization</a></li>
+            <li><a href="/chat_bot">ChatBot</a></li>
+            <li class="active"><a href="/similarity">Similarity</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row" style="top: 10%">
+
+        <center>
+            <h2>Similarity Analyzing</h2>
+        </center>
+        <center>
+            <h3>Please Upload your files</h3>
+            <center>
+                <div class="pie animate no-round" style="--p:{{data}};--c:lightgreen">{{data}}</div>
+            </center>
+            <br>
+            <br>
+            <br>
+
+            <form action="/similarity" method="post" enctype="multipart/form-data">
+                <div class="left">
+                    <input class="number" type="file" id="input-file" name="file1" placeholder="Fist Java file"
+                           accept=".java"
+                           required/>
+                    <textarea id="content-target"></textarea>
+                    <h4>File Number One</h4>
+                </div>
+                <div class="right">
+                    <input class="number" type="file" id="input-file2" name="file2" placeholder="Second Java file"
+                           accept=".java"
+                           required/>
+                    <textarea id="content-target2"></textarea>
+                    <h4>File Number Two</h4>
+                </div>
+
+                <button type="submit" class="btn btn-primary ">Upload</button>
+            </form>
+        </center>
+
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <center>
+            <h2>Git Summary</h2>
+            <form action="/summary" method="post">
+                <button type="submit" class="btn btn-success ">Get Summary for Given Git</button>
+            </form>
+        </center>
+
+        <center><p>{{sum}}</p></center>
+    </div>
+
+</div>
+<script>
+    document.getElementById('input-file')
+  .addEventListener('change', getFile)
+
+function getFile(event) {
+	const input = event.target
+  if ('files' in input && input.files.length > 0) {
+	  placeFileContent(
+      document.getElementById('content-target'),
+      input.files[0])
+  }
+}
+
+function placeFileContent(target, file) {
+	readFileContent(file).then(content => {
+  	target.value = content
+  }).catch(error => console.log(error))
+}
+
+function readFileContent(file) {
+	const reader = new FileReader()
+  return new Promise((resolve, reject) => {
+    reader.onload = event => resolve(event.target.result)
+    reader.onerror = error => reject(error)
+    reader.readAsText(file)
+  })
+}
+
+///////////
+document.getElementById('input-file2')
+  .addEventListener('change', getFile2)
+
+function getFile2(event) {
+	const input = event.target
+  if ('files' in input && input.files.length > 0) {
+	  placeFileContent2(
+      document.getElementById('content-target2'),
+      input.files[0])
+  }
+}
+
+function placeFileContent2(target, file) {
+	readFileContent2(file).then(content => {
+  	target.value = content
+  }).catch(error => console.log(error))
+}
+
+function readFileContent2(file) {
+	const reader = new FileReader()
+  return new Promise((resolve, reject) => {
+    reader.onload = event => resolve(event.target.result)
+    reader.onerror = error => reject(error)
+    reader.readAsText(file)
+  })
+}
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+Index,content,Readability
+1,"public Calculator() {window = new JFrame(Calculator)window.setSize(WINDOW_WIDTH WINDOW_HEIGHT)window.setLocationRelativeTo(null)",Readability Level 01
+2,"comboTheme = initCombo(new String[]{Simple Colored DarkTheme} 230 30 Theme themeSwitchEventConsumer)comboCalcType = initCombo(new String[]{Standard Scientific} 20 alculator type calcTypeSwitchEventConsumer)",Readability Level 01
+3,"repaintFont()if (Pattern.matches(([-]?\\d+[.]\\d*)|(\\d+) inText.getText()))if (go) {val = calc(val inText.getText() opt)if (Pattern.matches([-]?[\\d]+[.][0]* String.valueOf(val))) {",Readability Level 01
+4,"window.getContentPane().setBackground(new Color(68 68 68))btn0.setBackground(secondaryDarkColor)btn1.setBackground(secondaryDarkColor)btn2.setBackground(secondaryDarkColor)",Readability Level 02
+5,"Assertions.assertEquals(8 calculator.calc(first second '+'))\Assertions.assertEquals(-2 calculator.calc(first second '-'))Assertions.assertEquals(15 calculator.calc(first second '*'))Assertions.assertEquals(0.6 calculator.calc(first second '/'))",Readability Level 02
+6,"private static final int WINDOW_WIDTH = 410private static final int WINDOW_HEIGHT = 600private static final int BUTTON_WIDTH = 80private static final int BUTTON_HEIGHT = 70",Readability Level 02

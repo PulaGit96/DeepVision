@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>GIT</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <style>
+
+	.node circle {
+	  fill: #fff;
+	  stroke: steelblue;
+	  stroke-width: 3px;
+	}
+
+	.node text { font: 12px sans-serif; }
+
+	.link {
+	  fill: none;
+	  stroke: #ccc;
+	  stroke-width: 2px;
+	}
+	.tab {
+  overflow: hidden;
+  border: 1px solid #ccc;
+  background-color: #f1f1f1;
+}
+	.tab button {
+  background-color: inherit;
+  float: left;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  padding: 14px 16px;
+  transition: 0.3s;
+  font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+.tab button:hover {
+  background-color: #ddd;
+}
+
+/* Create an active/current tablink class */
+.tab button.active {
+  background-color: #ccc;
+}
+
+/* Style the tab content */
+.tabcontent {
+  display: none;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+
+
+.styled-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+.styled-table thead tr {
+    background-color: #009879;
+    color: #ffffff;
+    text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+    padding: 12px 15px;
+}
+
+.styled-table tbody tr {
+    border-bottom: 1px solid #dddddd;
+}
+
+.styled-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.styled-table tbody tr:last-of-type {
+    border-bottom: 2px solid #009879;
+}
+
+.styled-table tbody tr.active-row {
+    font-weight: bold;
+    color: #009879;
+}
+
+
+
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">Deep Vision</a>
+        </div>
+        <ul class="nav navbar-nav">
+            <li><a href="/home">Home</a></li>
+            <li><a href="/complexity">Complexity</a></li>
+            <li><a href="/readability">Readability</a></li>
+            <li class="active"><a href="/visualization">Visualization</a></li>
+            <li><a href="/chat_bot">ChatBot</a></li>
+            <li><a href="/similarity">Similarity</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+    <div class="row" style="top: 10%">
+        <center>
+            <h2>Visualization</h2>
+        </center>
+    </div>
+
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'tree')">Tree</button>
+        <button class="tablinks" onclick="openCity(event, 'uml')">UML</button>
+    </div>
+
+    <div id="tree" class="tabcontent">
+        <h3>Tree View</h3>
+        <div style="overflow-y: scroll; overflow-x: scroll; height:600px; width:900px;">
+            <p></p>
+        </div>
+    </div>
+
+    <div id="uml" class="tabcontent">
+        <h3>Class Visualization</h3>
+        <h5>Inheritance &thinsp;:</h5>
+
+
+        <table class="styled-table">
+            {% for i in data %}
+            <thead>
+            <tr>
+                <th>Class Name</th>
+                <th>{{ i.class_name }}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>Inheritances</td>
+                <td></td>
+            </tr>
+            {% for j in i.inheritances %}
+            <tr>
+                <td></td>
+                <td>{{j}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Objects</td>
+                <td></td>
+            </tr>
+            {% for j in i.objects %}
+            <tr>
+                <td></td>
+                <td>{{j}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Variables</td>
+                <td></td>
+            </tr>
+            {% for j in i.variables %}
+            <tr>
+                <td></td>
+                <td>{{j}}</td>
+            </tr>
+            {% endfor %}
+            <tr>
+                <td>Methods</td>
+                <td></td>
+            </tr>
+            {% for j in i.methods %}
+            <tr>
+                <td></td>
+                <td>{{j}}</td>
+            </tr>
+            {% endfor %}
+            <!-- and so on... -->
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
+
+
+</div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js"></script>
+
+<script>
+
+// ************** Generate the tree diagram	 *****************
+var margin = {top: 20, right: 120, bottom: 20, left: 120},
+	width = 5000 - margin.right - margin.left,
+	height = 600 - margin.top - margin.bottom;
+
+var i = 0;
+
+var tree = d3.layout.tree()
+	.size([height, width]);
+
+var diagonal = d3.svg.diagonal()
+	.projection(function(d) { return [d.y, d.x]; });
+
+var svg = d3.select("p").append("svg")
+	.attr("width", width + margin.right + margin.left)
+	.attr("height", height + margin.top + margin.bottom)
+  .append("g")
+	.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+// load the external data
+d3.json("{{ url_for('static', filename='js/data.json') }}", function(error, treeData) {
+  root = treeData[0];
+  update(root);
+});
+
+function update(source) {
+
+  // Compute the new tree layout.
+  var nodes = tree.nodes(root).reverse(),
+	  links = tree.links(nodes);
+
+  // Normalize for fixed-depth.
+  nodes.forEach(function(d) { d.y = d.depth * 180; });
+
+  // Declare the nodes…
+  var node = svg.selectAll("g.node")
+	  .data(nodes, function(d) { return d.id || (d.id = ++i); });
+
+  // Enter the nodes.
+  var nodeEnter = node.enter().append("g")
+	  .attr("class", "node")
+	  .attr("transform", function(d) {
+		  return "translate(" + d.y + "," + d.x + ")"; });
+
+  nodeEnter.append("circle")
+	  .attr("r", 10)
+	  .style("fill", "#fff");
+
+  nodeEnter.append("text")
+	  .attr("x", function(d) {
+		  return d.children || d._children ? -13 : 13; })
+	  .attr("dy", ".35em")
+	  .attr("text-anchor", function(d) {
+		  return d.children || d._children ? "end" : "start"; })
+	  .text(function(d) { return d.name; })
+	  .style("fill-opacity", 1);
+
+  // Declare the links…
+  var link = svg.selectAll("path.link")
+	  .data(links, function(d) { return d.target.id; });
+
+  // Enter the links.
+  link.enter().insert("path", "g")
+	  .attr("class", "link")
+	  .attr("d", diagonal);
+
+}
+openCity(event, 'tree');
+function openCity(evt, cityName) {
+  var i, tabcontent, tablinks;
+  tabcontent = document.getElementsByClassName("tabcontent");
+  for (i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+  tablinks = document.getElementsByClassName("tablinks");
+  for (i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+  document.getElementById(cityName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+
+
+
+</script>
+</body>
+</html>
